@@ -7,9 +7,8 @@ This project explores survival patterns using data profiling, missing value visu
 ---
 
 ## 📁 Project Structure
-CelebalTechAssignmentWeek4/
+CelebalTechAssignmentWeek4/ <br>
 ├── titanic_eda.py # Main analysis script <br>
-├── titanic_eda.ipynb # Jupyter Notebook with code + output <br>
 ├── visuals/ # Folder of saved plot images <br>
 ├── titanic_profiling_report.html # Full interactive profiling report <br>
 ├── requirements.txt # Required Python packages <br>
