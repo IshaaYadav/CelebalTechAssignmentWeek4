@@ -94,7 +94,7 @@ plt.tight_layout()
 plt.savefig("visuals/missing_values_heatmap.png", dpi=300, bbox_inches='tight')
 plt.show()
 
-# Optional: Bar plot of % missing per column
+# Bar plot of % missing per column
 sns.barplot(x='% Missing', y='Column', data=missing_df, palette='magma')
 plt.title('Percentage of Missing Values by Column')
 plt.tight_layout()
