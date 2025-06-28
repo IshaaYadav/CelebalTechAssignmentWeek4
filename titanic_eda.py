@@ -1,63 +1,63 @@
 # SECTION 1: Setup & Load Data
 
-# 📦 Import libraries
+# Import libraries
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 
-# 🔧 Set plot style
+# Set plot style
 sns.set(style="whitegrid", context="notebook")
 plt.rcParams["figure.figsize"] = (10, 6)
 
-# 📁 Create visuals folder if not exists
+# Create visuals folder if not exists
 if not os.path.exists("visuals"):
     os.makedirs("visuals")
 
-# 🛠 Load Titanic dataset from seaborn
+# Load Titanic dataset from seaborn
 df = sns.load_dataset("titanic")
 
-# 🧾 Basic Data Overview
-print("📝 Dataset Shape:", df.shape)
-print("\n📌 First 5 Rows:")
+# Basic Data Overview
+print("Dataset Shape:", df.shape)
+print("\nFirst 5 Rows:")
 print(df.head())
 
-print("\n🧠 Data Types and Non-Null Counts:")
+print("\nData Types and Non-Null Counts:")
 print(df.info())
 
-print("\n🔍 Basic Statistical Summary:")
+print("\nBasic Statistical Summary:")
 print(df.describe(include="all"))
 
 # SECTION 2: Data Profiling
 
-# 🔢 Unique value counts for each column
-print("\n🔢 Unique Values per Column:")
+# Unique value counts for each column
+print("\nUnique Values per Column:")
 print(df.nunique().sort_values(ascending=False))
 
-# 🕵️‍♂️ Columns with missing values
-print("\n🚨 Missing Values per Column:")
+# Columns with missing values
+print("\nMissing Values per Column:")
 missing = df.isnull().sum()
 missing = missing[missing > 0]
 print(missing)
 
-# 💬 Column data types summary
-print("\n📚 Column Types Summary:")
+# Column data types summary
+print("\nColumn Types Summary:")
 print(df.dtypes.value_counts())
 
-# 🧮 Count of categorical columns
+# Count of categorical columns
 categorical_cols = df.select_dtypes(include=['object', 'category']).columns.tolist()
 numerical_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
 
-print(f"\n🔍 Categorical Columns ({len(categorical_cols)}): {categorical_cols}")
-print(f"🔢 Numerical Columns ({len(numerical_cols)}): {numerical_cols}")
+print(f"\nCategorical Columns ({len(categorical_cols)}): {categorical_cols}")
+print(f"Numerical Columns ({len(numerical_cols)}): {numerical_cols}")
 
-# 📊 Summary statistics for numerical features
-print("\n📊 Numerical Summary:")
+# Summary statistics for numerical features
+print("\nNumerical Summary:")
 print(df[numerical_cols].describe())
 
-# 📋 Summary statistics for categorical features
-print("\n🧾 Categorical Summary:")
+# Summary statistics for categorical features
+print("\nCategorical Summary:")
 for col in categorical_cols:
     print(f"\n--- {col} ---")
     print(df[col].value_counts(dropna=False))
@@ -66,7 +66,7 @@ for col in categorical_cols:
 
 from ydata_profiling import ProfileReport
 
-print("\n📄 Generating full profiling report...")
+print("\nGenerating full profiling report...")
 
 # Create the profile
 profile = ProfileReport(df, title="Titanic Dataset EDA Report", explorative=True)
@@ -78,13 +78,13 @@ print("Profiling report saved as 'titanic_profiling_report.html'")
 
 # SECTION 3: Missing Value Analysis
 
-# 📋 Table of missing values
+# Table of missing values
 missing_df = df.isnull().sum().reset_index()
 missing_df.columns = ['Column', 'Missing_Values']
 missing_df['% Missing'] = (missing_df['Missing_Values'] / len(df)) * 100
 missing_df = missing_df[missing_df['Missing_Values'] > 0].sort_values(by='% Missing', ascending=False)
 
-print("\n Columns with Missing Values:")
+print("\nColumns with Missing Values:")
 print(missing_df)
 
 # Visualize missing values using seaborn heatmap
@@ -230,7 +230,7 @@ plt.show()
 
 # SECTION 6: Outlier Detection
 
-# ⚠️ Boxplot - Age
+# Boxplot - Age
 sns.boxplot(x=df['age'], color='lightblue')
 plt.title('Outlier Detection in Age')
 plt.xlabel('Age')
@@ -238,7 +238,7 @@ plt.tight_layout()
 plt.savefig('visuals/age_outliers_boxplot.png', dpi=300, bbox_inches='tight')
 plt.show()
 
-# ⚠️ Boxplot - Fare
+# Boxplot - Fare
 sns.boxplot(x=df['fare'], color='tomato')
 plt.title('Outlier Detection in Fare')
 plt.xlabel('Fare')
@@ -246,7 +246,7 @@ plt.tight_layout()
 plt.savefig('visuals/fare_outliers_boxplot.png', dpi=300, bbox_inches='tight')
 plt.show()
 
-# 🔍 IQR Method for Age
+# IQR Method for Age
 Q1_age = df['age'].quantile(0.25)
 Q3_age = df['age'].quantile(0.75)
 IQR_age = Q3_age - Q1_age
@@ -256,10 +256,10 @@ upper_bound_age = Q3_age + 1.5 * IQR_age
 
 outliers_age = df[(df['age'] < lower_bound_age) | (df['age'] > upper_bound_age)]
 
-print(f"\n👶 Age Outliers Detected: {outliers_age.shape[0]} rows")
+print(f"\nAge Outliers Detected: {outliers_age.shape[0]} rows")
 print(outliers_age[['age', 'survived', 'pclass']].head())
 
-# 🔍 IQR Method for Fare
+# IQR Method for Fare
 Q1_fare = df['fare'].quantile(0.25)
 Q3_fare = df['fare'].quantile(0.75)
 IQR_fare = Q3_fare - Q1_fare
@@ -269,6 +269,5 @@ upper_bound_fare = Q3_fare + 1.5 * IQR_fare
 
 outliers_fare = df[(df['fare'] < lower_bound_fare) | (df['fare'] > upper_bound_fare)]
 
-print(f"\n💸 Fare Outliers Detected: {outliers_fare.shape[0]} rows")
+print(f"\nFare Outliers Detected: {outliers_fare.shape[0]} rows")
 print(outliers_fare[['fare', 'survived', 'pclass']].head())
-
